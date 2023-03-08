@@ -1,2 +1,2 @@
 # deployment-rhacs-demo
-Simple deployment for showing RHACS integration in CI/CD pipelines
+Simple build for showing RHACS integration in CI/CD pipelines
