@@ -50,5 +50,31 @@ spec:
       workspaces:
         - name: source
           workspace: app-source
+    - name: scan-image
+      params:
+        - name: rox_central_endpoint
+          value: roxsecrets
+        - name: rox_api_token
+          value: roxsecrets
+        - name: image
+          value: nexus-mo-base.apps.cmp-sandpit.theosmo.com/hello-world:latest
+      runAfter: 
+        - build-image
+      taskRef:
+        kind: Task
+        name: stackrox-image-scan
+    - name: policy-check-image
+      params:
+        - name: rox_central_endpoint
+          value: roxsecrets
+        - name: rox_api_token
+          value: roxsecrets
+        - name: image
+          value: nexus-mo-base.apps.cmp-sandpit.theosmo.com/hello-world:latest
+      runAfter:
+        - build-image
+      taskRef:
+        kind: Task
+        name: stackrox-image-check
   workspaces:
     - name: app-source
