@@ -1,0 +1,54 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: ci-pipeline
+  namespace: rhacs-demo
+spec:
+  params:
+    - description: git url to clone
+      name: git-source-url
+      type: string
+    - default: main
+      description: 'git revision to checkout (branch, tag, sha, ref…)'
+      name: git-source-revision
+      type: string
+    - description: image tag - truncated commit Id
+      name: short-commit-id
+      type: string
+    - default: 'artifactory.xxx.corp.xxx.ca:5073/ccop-dev/quarkus-ref-image-dev'
+      description: image path
+      name: REMOTE_IMAGE_URL
+      type: string
+  tasks:
+    - name: git-clone
+      params:
+        - name: url
+          value: $(params.git-source-url)
+        - name: revision
+          value: $(params.git-source-revision)
+        - name: sslVerify
+          value: 'false'
+        - name: noProxy
+          value: 'true'
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: app-source
+    - name: build-image
+      params:
+        - name: IMAGE
+          value: $(params.REMOTE_IMAGE_URL)
+        - name: TLSVERIFY
+          value: 'false'
+      runAfter:
+        - git-clone
+      taskRef:
+        kind: ClusterTask
+        name: buildah
+      workspaces:
+        - name: source
+          workspace: app-source
+  workspaces:
+    - name: app-source
