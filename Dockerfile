@@ -4,4 +4,4 @@ WORKDIR /usr/src/app
 
 COPY ./src/hello-world /usr/src/app/hello-world
 
-CMD ["/usr/src/app/hello-world", "--privileged"]
+CMD ["/usr/src/app/hello-world"]
