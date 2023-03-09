@@ -1,14 +1,14 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: ci-pipeline
+  name: ci-pipeline-privileged
   namespace: rhacs-demo
 spec:
   params:
     - description: git url to clone
       name: git-source-url
       type: string
-    - default: main
+    - default: privileged
       description: 'git revision to checkout (branch, tag, sha, ref…)'
       name: git-source-revision
       type: string
