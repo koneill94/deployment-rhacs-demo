@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: ci-pipeline
+  name: ci-pipeline-pass
   namespace: rhacs-demo
 spec:
   params:
@@ -9,7 +9,7 @@ spec:
       description: git url to clone
       name: git-source-url
       type: string
-    - default: main
+    - default: demo
       description: 'git revision to checkout (branch, tag, sha, ref…)'
       name: git-source-revision
       type: string
@@ -73,6 +73,6 @@ spec:
         - build-image
       taskRef:
         kind: Task
-        name: stackrox-image-check
+        name: stackrox-image-check-demo
   workspaces:
     - name: app-source
