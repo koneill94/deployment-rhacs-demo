@@ -68,7 +68,7 @@ spec:
         - name: rox_api_token
           value: roxsecrets
         - name: image
-          value: nexus-mo-base.apps.cmp-sandpit.theosmo.com/hello-world:latest
+          value: nexus-mo-base.apps.cmp-sandpit.theosmo.com/hello-world-privileged:latest
       runAfter:
         - build-image
       taskRef:
