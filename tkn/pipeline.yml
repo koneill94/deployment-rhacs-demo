@@ -5,19 +5,17 @@ metadata:
   namespace: rhacs-demo
 spec:
   params:
-    - description: git url to clone
+    - default: https://github.com/koneill94/deployment-rhacs-demo.git
+      description: git url to clone
       name: git-source-url
       type: string
     - default: privileged
       description: 'git revision to checkout (branch, tag, sha, ref…)'
       name: git-source-revision
       type: string
-    - description: image tag - truncated commit Id
+    - default: latest
+      description: image tag - truncated commit Id
       name: short-commit-id
-      type: string
-    - default: 'artifactory.xxx.corp.xxx.ca:5073/ccop-dev/quarkus-ref-image-dev'
-      description: image path
-      name: REMOTE_IMAGE_URL
       type: string
   tasks:
     - name: git-clone
@@ -39,7 +37,7 @@ spec:
     - name: build-image
       params:
         - name: IMAGE
-          value: $(params.REMOTE_IMAGE_URL)
+          value: nexus-mo-base.apps.cmp-sandpit.theosmo.com/hello-world-privileged:latest
         - name: TLSVERIFY
           value: 'false'
       runAfter:
@@ -57,7 +55,7 @@ spec:
         - name: rox_api_token
           value: roxsecrets
         - name: image
-          value: nexus-mo-base.apps.cmp-sandpit.theosmo.com/hello-world:latest
+          value: nexus-mo-base.apps.cmp-sandpit.theosmo.com/hello-world-privileged:latest
       runAfter: 
         - build-image
       taskRef:
